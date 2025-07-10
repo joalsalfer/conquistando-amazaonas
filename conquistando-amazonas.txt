@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conquistando Amazonas</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #c6f3d5;
+      font-family: sans-serif;
+    }
+    #gameContainer {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      border: 3px solid #2a4728;
+      background-color: #e6f9ec;
+    }
+    #store {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ffffffaa;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .store-item {
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="480" height="320"></canvas>
+  </div>
+  <div id="store">
+    <strong>Tienda:</strong>
+    <div class="store-item" onclick="buy('energia')">⚡ Energía +5 (10 🪙)</div>
+    <div class="store-item" onclick="buy('pista')">🧠 Pista (15 🪙)</div>
+    <div class="store-item" onclick="buy('skin')">🎨 Skin Casa Amazónica (20 🪙)</div>
+  </div>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let monedas = 50;
+    let energia = 10;
+    let mensaje = "Bienvenido a Conquistando Amazonas!";
+
+    function drawGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = "#3e8c4d";
+      ctx.fillRect(20, 60, 100, 100); // parcela
+      ctx.fillStyle = "#fff";
+      ctx.fillText("🌽 Cultivo", 30, 80);
+
+      ctx.fillStyle = "#3e4c8c";
+      ctx.fillRect(200, 60, 100, 100); // casa
+      ctx.fillStyle = "#fff";
+      ctx.fillText("🏠 Casa", 220, 80);
+
+      ctx.fillStyle = "black";
+      ctx.fillText("🪙 Monedas: " + monedas, 20, 20);
+      ctx.fillText("⚡ Energía: " + energia, 20, 35);
+      ctx.fillText(mensaje, 20, 300);
+    }
+
+    function buy(item) {
+      if (item === 'energia' && monedas >= 10) {
+        monedas -= 10;
+        energia += 5;
+        mensaje = "¡Energía recargada!";
+      } else if (item === 'pista' && monedas >= 15) {
+        monedas -= 15;
+        mensaje = "Tip: Prioriza los cultivos para generar recursos rápidos.";
+      } else if (item === 'skin' && monedas >= 20) {
+        monedas -= 20;
+        mensaje = "¡Skin amazónica activada!";
+        ctx.fillStyle = "#4ca374";
+      } else {
+        mensaje = "No tienes suficientes monedas.";
+      }
+      drawGame();
+    }
+
+    drawGame();
+  </script>
+</body>
+</html>
